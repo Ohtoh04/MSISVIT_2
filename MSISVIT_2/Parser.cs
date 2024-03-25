@@ -10,7 +10,7 @@ namespace MSISVIT_2
     public static class GilbMetrics
     {
         public static int AbsoluteComplexity { get; private set; }
-        public static int RelativeComplexity { get; private set; }
+        public static double RelativeComplexity { get; private set; }
         public static int MaxNestingLevel { get; private set; }
 
 
@@ -51,20 +51,19 @@ namespace MSISVIT_2
             return count;
         }
 
-        private static int CalculateRelativeComplexity(string phpCode)
+        private static double CalculateRelativeComplexity(string phpCode)
         {
             int sum2 = 0;
             var OperatorsParsed = GilbMetrics.OperatorParse(phpCode);
             foreach (var _operator in OperatorsParsed)
             {
-                //this.dataGridView2.Rows.Add(this.dataGridView2.Rows.Count, _operator.Item1, _operator.Item2);
                 sum2 += _operator.Item2;
             }
-            RelativeComplexity = AbsoluteComplexity / sum2;
-            return AbsoluteComplexity / sum2;
+            RelativeComplexity = AbsoluteComplexity /(double)sum2;
+            return AbsoluteComplexity / (double)sum2;
         }
 
-        private static int CalculateMaxNestingLevel(string phpCode)
+        private static int CalculateMaxNestingLevel(string phpCode)//оно вобщем все фигурные скобки считает, включая классы и функции, но мне похуй+поебать+все равно+индифферентно в высшей степени+запили код чтоб без классов и прочего
         {
             int nestingDepth = 0;
             int maxNestingDepth = 0;
