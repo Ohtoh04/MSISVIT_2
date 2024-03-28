@@ -96,7 +96,8 @@ namespace MSISVIT_2
                     maxCaseCount = caseCount;
                 }
             }
-
+            maxCaseCount -= 2;
+            maxNestingDepth -= 1;
             MaxNestingLevel = maxNestingDepth > maxCaseCount ? maxNestingDepth: maxCaseCount;
             return MaxNestingLevel;
         }
