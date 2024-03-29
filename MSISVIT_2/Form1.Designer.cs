@@ -187,6 +187,7 @@
             Button_Parse.TabIndex = 0;
             Button_Parse.Text = "Parse";
             Button_Parse.UseVisualStyleBackColor = false;
+            Button_Parse.Click += Button_Parse_Click_1;
             // 
             // Button_Test
             // 

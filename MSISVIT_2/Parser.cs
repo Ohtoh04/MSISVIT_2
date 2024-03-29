@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace MSISVIT_2
 {
@@ -63,40 +64,125 @@ namespace MSISVIT_2
             return AbsoluteComplexity / (double)sum2;
         }
 
-        private static int CalculateMaxNestingLevel(string phpCode)//оно вобщем все фигурные скобки считает, включая классы и функции, но мне похуй+поебать+все равно+индифферентно в высшей степени+запили код чтоб без классов и прочего
+        private static int CalculateMaxNestingLevel(string phpCode)//функция говно надо переписать
         {
+            //
             int nestingDepth = 0;
             int maxNestingDepth = 0;
-
-            foreach (char c in phpCode)
+            // switch-case handling vars
+            int caseCounter = 0; // counts cases in a current switch case
+            bool isInSwitch = false; // If switch occured
+            int switchBracketsCount = 0;
+            //
+            bool isInElse = false;
+            bool previousIsElse = false;
+            int elseBracketsCount = 0;
+            //
+            //новый вариант
+            char[] delimiters = new char[] { ' ', '\n' };
+            string[] words = phpCode.Split(delimiters, StringSplitOptions.RemoveEmptyEntries);
+            foreach (var word in words)
             {
-                if (c == '{')
+
+                if(word == "{")
                 {
+                    previousIsElse = false;
+                    if (isInSwitch)
+                    {
+                        switchBracketsCount++;
+                    }
+                    if(isInElse)
+                    {
+                        elseBracketsCount++;
+                    }
                     nestingDepth++;
-                    maxNestingDepth = Math.Max(maxNestingDepth, nestingDepth);
                 }
-                else if (c == '}')
+                else if (word == "}")
                 {
+                    previousIsElse = false;
+                    if (isInSwitch)
+                    {
+                        switchBracketsCount--;
+                    }
+                    if (isInElse)
+                    {
+                        elseBracketsCount--;
+                    }
+                    if (switchBracketsCount == 0 && isInSwitch)
+                    {
+                        isInSwitch = false;
+                        nestingDepth+=caseCounter;
+                    }
+                    if (elseBracketsCount == 0 && isInElse)
+                    {
+                        isInElse = false;
+                        nestingDepth++;
+                    }
                     nestingDepth--;
                 }
-            }
-            string[] substrings = Regex.Split(phpCode, @"(?=switch)").Where(s => !string.IsNullOrEmpty(s)).ToArray();
-
-            int maxCaseCount = 0;
-
-            foreach (string substring in substrings)
-            {
-                int caseCount = Regex.Matches(substring, "case").Count;
-
-                if (caseCount > maxCaseCount)
+                else if(word == "case")
                 {
-                    maxCaseCount = caseCount;
+                    previousIsElse = false;
+                    caseCounter++;
                 }
+                else if(word == "else")
+                {
+                    previousIsElse = true;
+                }
+                else if(word == "if" && previousIsElse)
+                {
+                    nestingDepth++;
+                    isInElse = true;
+                }
+                else if(word == "switch")
+                {
+                    previousIsElse = false;
+                    caseCounter = 0;
+                    isInSwitch = true;
+                    nestingDepth--;
+                }
+                else
+                {
+                    previousIsElse = false;
+                }
+
+                if (maxNestingDepth < nestingDepth)
+                {
+                    maxNestingDepth = nestingDepth;
+                }
+                    
             }
-            maxCaseCount -= 2;
+            //старый вариант
+            //foreach (char c in phpCode)
+            //{
+            //    if (c == '{')
+            //    {
+            //        nestingDepth++;
+            //        maxNestingDepth = Math.Max(maxNestingDepth, nestingDepth);
+            //    }
+            //    else if (c == '}')
+            //    {
+            //        nestingDepth--;
+            //    }
+            //}
+            //string[] substrings = Regex.Split(phpCode, @"(?=switch)").Where(s => !string.IsNullOrEmpty(s)).ToArray();
+
+            //int maxCaseCount = 0;
+
+            //foreach (string substring in substrings)
+            //{
+            //    int caseCount = Regex.Matches(substring, "case").Count;
+
+            //    if (caseCount > maxCaseCount)
+            //    {
+            //        maxCaseCount = caseCount;
+            //    }
+            //}
+            //maxCaseCount -= 2;
             maxNestingDepth -= 1;
-            MaxNestingLevel = maxNestingDepth > maxCaseCount ? maxNestingDepth: maxCaseCount;
-            return MaxNestingLevel;
+            //MaxNestingLevel = maxNestingDepth > maxCaseCount ? maxNestingDepth: maxCaseCount;
+            MaxNestingLevel = maxNestingDepth;
+            return maxNestingDepth;
         }
 
         private static List<Tuple<string, int>> CountOperators(string code)
@@ -206,12 +292,11 @@ namespace MSISVIT_2
             var funcCounts = new Dictionary<string, int>();
             var matches = Regex.Matches(input, @"\b(?<!(function\s+)|(->))(\w+\()");
 
-
             foreach (Match match in matches)
             {
-                if (funcCounts.ContainsKey(match.Value + ")"))
+                if (funcCounts.ContainsKey(match.Value+")"))
                 {
-                    funcCounts[match.Value]++;
+                    funcCounts[match.Value+")"]++;
                 }
                 else
                 {
