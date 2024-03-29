@@ -80,17 +80,14 @@ namespace MSISVIT_2
                     nestingDepth--;
                 }
             }
-            //блять свитч кейс
             string[] substrings = Regex.Split(phpCode, @"(?=switch)").Where(s => !string.IsNullOrEmpty(s)).ToArray();
 
             int maxCaseCount = 0;
 
             foreach (string substring in substrings)
             {
-                // Count the "case" keywords in each substring
                 int caseCount = Regex.Matches(substring, "case").Count;
 
-                // Update the max count
                 if (caseCount > maxCaseCount)
                 {
                     maxCaseCount = caseCount;

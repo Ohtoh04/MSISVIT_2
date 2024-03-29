@@ -30,7 +30,6 @@
         {
             tableLayoutPanel1 = new TableLayoutPanel();
             richTextBox1 = new RichTextBox();
-            Button_Parse = new Button();
             tableLayoutPanel2 = new TableLayoutPanel();
             Label_CLI_res = new Label();
             Label_cl_res2 = new Label();
@@ -38,8 +37,12 @@
             Label_CLI = new Label();
             Label_cl_2 = new Label();
             Label_CL = new Label();
+            tableLayoutPanel3 = new TableLayoutPanel();
+            Button_Parse = new Button();
+            Button_Test = new Button();
             tableLayoutPanel1.SuspendLayout();
             tableLayoutPanel2.SuspendLayout();
+            tableLayoutPanel3.SuspendLayout();
             SuspendLayout();
             // 
             // tableLayoutPanel1
@@ -48,8 +51,8 @@
             tableLayoutPanel1.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 26.75F));
             tableLayoutPanel1.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 73.25F));
             tableLayoutPanel1.Controls.Add(richTextBox1, 0, 0);
-            tableLayoutPanel1.Controls.Add(Button_Parse, 0, 1);
             tableLayoutPanel1.Controls.Add(tableLayoutPanel2, 1, 1);
+            tableLayoutPanel1.Controls.Add(tableLayoutPanel3, 0, 1);
             tableLayoutPanel1.Dock = DockStyle.Fill;
             tableLayoutPanel1.Location = new Point(0, 0);
             tableLayoutPanel1.Name = "tableLayoutPanel1";
@@ -68,18 +71,6 @@
             richTextBox1.Size = new Size(794, 337);
             richTextBox1.TabIndex = 0;
             richTextBox1.Text = "";
-            // 
-            // Button_Parse
-            // 
-            Button_Parse.BackColor = Color.Lime;
-            Button_Parse.Dock = DockStyle.Fill;
-            Button_Parse.Location = new Point(3, 346);
-            Button_Parse.Name = "Button_Parse";
-            Button_Parse.Size = new Size(208, 101);
-            Button_Parse.TabIndex = 1;
-            Button_Parse.Text = "Parse";
-            Button_Parse.UseVisualStyleBackColor = false;
-            Button_Parse.Click += Button_Parse_Click;
             // 
             // tableLayoutPanel2
             // 
@@ -171,6 +162,44 @@
             Label_CL.Text = "CL";
             Label_CL.TextAlign = ContentAlignment.MiddleCenter;
             // 
+            // tableLayoutPanel3
+            // 
+            tableLayoutPanel3.ColumnCount = 1;
+            tableLayoutPanel3.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 50F));
+            tableLayoutPanel3.Controls.Add(Button_Parse, 0, 0);
+            tableLayoutPanel3.Controls.Add(Button_Test, 0, 1);
+            tableLayoutPanel3.Dock = DockStyle.Fill;
+            tableLayoutPanel3.Location = new Point(3, 346);
+            tableLayoutPanel3.Name = "tableLayoutPanel3";
+            tableLayoutPanel3.RowCount = 2;
+            tableLayoutPanel3.RowStyles.Add(new RowStyle(SizeType.Percent, 50F));
+            tableLayoutPanel3.RowStyles.Add(new RowStyle(SizeType.Percent, 50F));
+            tableLayoutPanel3.Size = new Size(208, 101);
+            tableLayoutPanel3.TabIndex = 3;
+            // 
+            // Button_Parse
+            // 
+            Button_Parse.BackColor = Color.Lime;
+            Button_Parse.Dock = DockStyle.Fill;
+            Button_Parse.Location = new Point(3, 3);
+            Button_Parse.Name = "Button_Parse";
+            Button_Parse.Size = new Size(202, 44);
+            Button_Parse.TabIndex = 0;
+            Button_Parse.Text = "Parse";
+            Button_Parse.UseVisualStyleBackColor = false;
+            // 
+            // Button_Test
+            // 
+            Button_Test.BackColor = Color.Lime;
+            Button_Test.Dock = DockStyle.Fill;
+            Button_Test.Location = new Point(3, 53);
+            Button_Test.Name = "Button_Test";
+            Button_Test.Size = new Size(202, 45);
+            Button_Test.TabIndex = 1;
+            Button_Test.Text = "Test";
+            Button_Test.UseVisualStyleBackColor = false;
+            Button_Test.Click += Button_Test_Click;
+            // 
             // Form1
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
@@ -182,13 +211,13 @@
             tableLayoutPanel1.ResumeLayout(false);
             tableLayoutPanel2.ResumeLayout(false);
             tableLayoutPanel2.PerformLayout();
+            tableLayoutPanel3.ResumeLayout(false);
             ResumeLayout(false);
         }
 
         #endregion
 
         private TableLayoutPanel tableLayoutPanel1;
-        private Button Button_Parse;
         private TableLayoutPanel tableLayoutPanel2;
         private Label Label_CL;
         private Label Label_CLI_res;
@@ -197,5 +226,8 @@
         private Label Label_CLI;
         private Label Label_cl_2;
         private RichTextBox richTextBox1;
+        private TableLayoutPanel tableLayoutPanel3;
+        private Button Button_Parse;
+        private Button Button_Test;
     }
 }

@@ -15,5 +15,12 @@ namespace MSISVIT_2
             Label_CLI_res.Text = GilbMetrics.MaxNestingLevel.ToString();
 
         }
+
+        private void Button_Test_Click(object sender, EventArgs e)
+        {
+            this.richTextBox1.Text = File.ReadAllText("test.txt");
+            Button_Parse_Click(sender, e);
+
+        }
     }
 }
